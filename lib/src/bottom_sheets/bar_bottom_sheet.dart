@@ -30,44 +30,40 @@ class BarBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle ?? SystemUiOverlayStyle.light,
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 12),
-            SafeArea(
-              bottom: false,
-              child: control ??
-                  Container(
-                    height: 6,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6)),
-                  ),
-            ),
-            SizedBox(height: 8),
-            Flexible(
-              flex: 1,
-              fit: FlexFit.loose,
-              child: Material(
-                shape: shape ??
-                    RoundedRectangleBorder(
-                      side: BorderSide(),
-                      borderRadius: BorderRadius.only(
-                          topLeft: _default_bar_top_radius,
-                          topRight: _default_bar_top_radius),
-                    ),
-                clipBehavior: clipBehavior ?? Clip.hardEdge,
-                elevation: elevation ?? 2,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: MediaQuery.removePadding(
-                      context: context, removeTop: true, child: child),
+      child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: [
+        SizedBox(height: 12),
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: Material(
+            shape: shape ??
+                RoundedRectangleBorder(
+                  side: BorderSide(),
+                  borderRadius: BorderRadius.only(topLeft: _default_bar_top_radius, topRight: _default_bar_top_radius),
                 ),
-              ),
+            clipBehavior: clipBehavior ?? Clip.hardEdge,
+            elevation: elevation ?? 2,
+            child: SizedBox(
+              width: double.infinity,
+              child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: Column(
+                    children: [
+                      control ??
+                          Container(
+                            height: 6,
+                            width: 40,
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6)),
+                          ),
+                      SizedBox(height: 8),
+                      child,
+                    ],
+                  )),
             ),
-          ]),
+          ),
+        ),
+      ]),
     );
   }
 }
@@ -95,8 +91,7 @@ Future<T?> showBarModalBottomSheet<T>({
 }) async {
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
-  final result = await Navigator.of(context, rootNavigator: useRootNavigator)
-      .push(ModalBottomSheetRoute<T>(
+  final result = await Navigator.of(context, rootNavigator: useRootNavigator).push(ModalBottomSheetRoute<T>(
     builder: builder,
     bounce: bounce,
     closeProgressThreshold: closeProgressThreshold,

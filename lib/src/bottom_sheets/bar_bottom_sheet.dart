@@ -32,6 +32,11 @@ class BarBottomSheet extends StatelessWidget {
       value: overlayStyle ?? SystemUiOverlayStyle.light,
       child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: [
         SizedBox(height: 12),
+        SafeArea(
+          bottom: false,
+          child: SizedBox.shrink(),
+        ),
+        SizedBox(height: 8),
         Flexible(
           flex: 1,
           fit: FlexFit.loose,

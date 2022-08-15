@@ -54,6 +54,7 @@ class BarBottomSheet extends StatelessWidget {
                   context: context,
                   removeTop: true,
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       control ??
                           Container(

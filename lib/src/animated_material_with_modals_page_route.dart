@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +22,22 @@ class AnimatedMaterialWithModalsPageRoute<T> extends MaterialPageRoute<T> {
   @override
   bool canTransitionTo(TransitionRoute<dynamic> nextRoute) {
     // Don't perform outgoing animation if the next route is a fullscreen dialog.
+
+    late bool isAnimated;
+
+    try {
+      isAnimated = (nextRoute.settings.arguments as Map)['isAnimated'] as bool;
+    } catch (e) {
+      isAnimated = true;
+    }
+
+    log('(AnimatedMaterialWithModalsPageRoute): isAnimated: $isAnimated');
+
     return (nextRoute is MaterialPageRoute && !nextRoute.fullscreenDialog) ||
         (nextRoute is CupertinoPageRoute && !nextRoute.fullscreenDialog) ||
         (nextRoute is MaterialWithModalsPageRoute && !nextRoute.fullscreenDialog) ||
-        (nextRoute is ModalBottomSheetRoute);
+        (nextRoute is ModalBottomSheetRoute) ||
+        isAnimated;
   }
 
   @override
